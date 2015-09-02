@@ -1,0 +1,32 @@
+﻿/*
+ *  Copyright (C) GridGain Systems. All Rights Reserved.
+ *  _________        _____ __________________        _____
+ *  __  ____/___________(_)______  /__  ____/______ ____(_)_______
+ *  _  / __  __  ___/__  / _  __  / _  / __  _  __ `/__  / __  __ \
+ *  / /_/ /  _  /    _  /  / /_/ /  / /_/ /  / /_/ / _  /  _  / / /
+ *  \____/   /_/     /_/   \_,__/   \____/   \__,_/  /_/   /_/ /_/
+ */
+
+namespace GridGain.Impl.DataCenterReplication
+{
+    using GridGain.Portable;
+    
+	/// <summary>
+    /// CLS_DESC
+    /// </summary>
+    internal sealed class CLS_NAME : ICLS_NAME
+	{
+CLS_FIELDS
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="CLS_NAME"/> class.
+        /// </summary>
+        /// <param name="r">The reader to read data from.</param>
+        public CLS_NAME(IPortableRawReader r)
+        {
+READ_PORTABLE
+        }
+		
+CLS_CODE
+    }
+}

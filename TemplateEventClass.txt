@@ -1,0 +1,41 @@
+﻿/*
+ *  Copyright (C) GridGain Systems. All Rights Reserved.
+ *  _________        _____ __________________        _____
+ *  __  ____/___________(_)______  /__  ____/______ ____(_)_______
+ *  _  / __  __  ___/__  / _  __  / _  / __  _  __ `/__  / __  __ \
+ *  / /_/ /  _  /    _  /  / /_/ /  / /_/ /  / /_/ / _  /  _  / / /
+ *  \____/   /_/     /_/   \_,__/   \____/   \__,_/  /_/   /_/ /_/
+ */
+
+namespace GridGain.Events
+{
+    using System;
+
+    using GridGain.Cluster;
+    using GridGain.Portable;
+    
+	/// <summary>
+    /// CLS_DESC
+    /// </summary>
+    public sealed class CLS_NAME : EventBase
+	{
+CLS_FIELDS
+
+        /// <summary>
+        /// Constructor.
+        /// </summary>
+        /// <param name="r">The reader to read data from.</param>
+        public CLS_NAME(IPortableRawReader r) : base(r)
+        {
+READ_PORTABLE
+        }
+		
+CLS_CODE
+
+        /** <inheritDoc /> */
+	    public override string ToShortString()
+	    {
+	        return string.Format(CLS_TO_SHORT_STRING);
+	    }
+    }
+}
