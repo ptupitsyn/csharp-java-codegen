@@ -3,34 +3,34 @@
 </Query>
 
 Func<string, string> camelToUnderscore = x => Regex.Replace(x.Trim(), "([A-Z])", "_$1").ToUpper();
-Func<string, string> replaceTypes = x => x.Replace("long", "long long");
+Func<string, string> replaceTypes = x => x.Replace("long", "long long").Replace("boolean", "bool");
 Func<string, string> firstToUpper = x => char.ToUpper(x[0]) + x.Substring(1);
 Func<string, string> firstToLower = x => char.ToLower(x[0]) + x.Substring(1);
-Func<string, string> getJniSig = x => x.Replace("long", "J").Replace("bool", "Z").Replace("void", "V");
+Func<string, string> getJniSig = x => x.Replace("long", "J").Replace("boolean", "Z").Replace("void", "V").Replace("int", "I");
 
-var prefix = "AtomicLong";
+var prefix = "AtomicSequence";
 var javaNs = "datastructures";
 var prefix2 = camelToUnderscore(prefix).Substring(1);
 
 var moduleDefMaxId = Regex.Matches(File.ReadAllText(@"C:\W\incubator-ignite\modules\platforms\cpp\common\project\vs\module.def"), "[0-9]+").OfType<Match>().Select(x=>int.Parse(x.Value)).Max();
 
 
-var src = @"C:\W\incubator-ignite\modules\platforms\dotnet\Apache.Ignite.Core\DataStructures\IAtomicLong.cs";
+var src = @"C:\W\incubator-ignite\modules\core\src\main\java\org\apache\ignite\IgniteAtomicSequence.java";
 
-var methods = Regex.Matches(File.ReadAllText(src), @"([a-zA-Z]+) ([a-zA-Z]+)\((.*?)\);")
+var methods = Regex.Matches(File.ReadAllText(src), @"([a-zA-Z]+) ([a-zA-Z]+)\((.*?)\).*?;")
 .OfType<Match>().Select(x => x.Groups.OfType<Group>().Select(g => g.Value).ToArray()).Select(x =>
 	new { 
-	Ret = x[1], 
+	Ret = x[1].ToLower().Replace("boolean", "bool"), 
 	RetSig = getJniSig(x[1]), 
 	RetCpp = replaceTypes(x[1]),
-	Name = x[2], 
-	Name2 = camelToUnderscore(x[2]), 
+	Name = firstToUpper(x[2]), 
+	Name2 = "_" + camelToUnderscore(x[2]), 
 	Args = string.IsNullOrEmpty(x[3]) ? "" : ", " + x[3],
 	ArgsCpp = string.IsNullOrEmpty(x[3]) ? "" : ", " + replaceTypes(x[3]),
 	ArgNames = string.IsNullOrEmpty(x[3]) ? "" : ", " + string.Join(", ", x[3].Split(',').Select(s=>s.Split(' ').Last())),
 	ArgSig = string.IsNullOrEmpty(x[3]) ? "" : string.Concat(x[3].Split(',').Select(s=>getJniSig(s.Split(' ').First())))
-	}).ToArray();
-//methods.Dump();
+	}).Where(x=>x.Name != "Name").ToArray();
+methods.Dump();
 
 
 // UnmanagedUtils
