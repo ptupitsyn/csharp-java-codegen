@@ -7,7 +7,7 @@ namespace GridGain.CodeGen
 {
     public static class ClassParser
     {
-        private const string ClassSigRegex = @"/\*\*\s+\*([^\*]+).*(class|interface) ([a-zA-Z]+)(<.*?>)?[^{]*{";
+        private const string ClassSigRegex = @"(.*?)(class|interface) ([a-zA-Z]+)(<.*?>)?[^{]*{";
 
         private static int _clsId;
 
@@ -31,7 +31,8 @@ namespace GridGain.CodeGen
                 GenericArgs = match.Groups[4].Value,
                 Properties = JavaConverter.GetMethods(code).Where(x => x.Annotation.Trim() != "@Override"
                                                        && !excludedPropNames.Contains(x.Name,
-                                                           StringComparer.OrdinalIgnoreCase)).ToArray()
+                                                           StringComparer.OrdinalIgnoreCase))
+                                                           .ToArray()
             };
         }
     }

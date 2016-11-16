@@ -12,10 +12,10 @@ var prefix = "AtomicLong";
 var javaNs = "datastructures";
 var prefix2 = camelToUnderscore(prefix).Substring(1);
 
-var moduleDefMaxId = Regex.Matches(File.ReadAllText(@"C:\W\incubator-ignite\modules\platform\src\main\cpp\common\project\vs\module.def"), "[0-9]+").OfType<Match>().Select(x=>int.Parse(x.Value)).Max();
+var moduleDefMaxId = Regex.Matches(File.ReadAllText(@"C:\W\incubator-ignite\modules\platforms\cpp\common\project\vs\module.def"), "[0-9]+").OfType<Match>().Select(x=>int.Parse(x.Value)).Max();
 
 
-var src = @"C:\W\incubator-ignite\modules\platform\src\main\dotnet\Apache.Ignite.Core\DataStructures\IAtomicLong.cs";
+var src = @"C:\W\incubator-ignite\modules\platforms\dotnet\Apache.Ignite.Core\DataStructures\IAtomicLong.cs";
 
 var methods = Regex.Matches(File.ReadAllText(src), @"([a-zA-Z]+) ([a-zA-Z]+)\((.*?)\);")
 .OfType<Match>().Select(x => x.Groups.OfType<Group>().Select(g => g.Value).ToArray()).Select(x =>
@@ -59,7 +59,7 @@ methods.Select(x => $"{x.RetCpp} {prefix}{x.Name}(jobject obj{x.ArgsCpp});").Dum
 new[] { $"jclass c_Platform{prefix};"}.Concat(methods.Select(x => $"jmethodID m_Platform{prefix}_{firstToLower(x.Name)};")).Dump();
 
 // java.cpp
-methods.Select(x => $"{x.RetCpp} JniContext::{prefix}{x.Name}(jobject obj{x.ArgsCpp})\n {{ \n JNIEnv* env = Attach(); \n\n {x.RetCpp} res = env->Call{firstToUpper(x.Ret)}Method(obj, jvm->GetMembers().m_PlatformAtomicLong_read); \n\n ExceptionCheck(env); \n\n return res; \n }} \n").Dump("java.cpp");
+methods.Select(x => $"{x.RetCpp} JniContext::{prefix}{x.Name}(jobject obj{x.ArgsCpp})\n {{ \n JNIEnv* env = Attach(); \n\n {x.RetCpp} res = env->Call{firstToUpper(x.Ret)}Method(obj, jvm->GetMembers().m_PlatformAtomicLong_{firstToLower(x.Name)}{x.ArgNames}); \n\n ExceptionCheck(env); \n\n return res; \n }} \n").Dump("java.cpp");
 
 new[] { $"const char* C_PLATFORM_{prefix2} = \"org/apache/ignite/internal/processors/platform/{javaNs}/Platform{prefix}\";" }.Concat(
 methods.Select(x => $"JniMethod M_PLATFORM_{prefix2}{x.Name2} = JniMethod(\"{firstToLower(x.Name)}\", \"({x.ArgSig}){x.RetSig}\", false);")

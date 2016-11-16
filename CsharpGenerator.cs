@@ -48,6 +48,9 @@ namespace GridGain.CodeGen
             {
                 var propName = meth.Name.ToUpperCamel();
 
+                if (propName.StartsWith("Get"))
+                    propName = propName.Substring(3);
+
                 AppendComment(sb, meth);
 
                 sb.AppendFormat("        {0} {1} {{ get; }}\n", meth.Type.ToCsharpType(), propName);
@@ -85,6 +88,10 @@ namespace GridGain.CodeGen
             foreach (var prop in cls.Properties)
             {
                 var propName = prop.Name.ToUpperCamel();
+
+                if (propName.StartsWith("Get"))
+                    propName = propName.Substring(3);
+
                 var fieldName = propName.ToLowerCamel().Replace("internal", "@internal");
 
                 // Property

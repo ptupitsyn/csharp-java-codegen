@@ -8,22 +8,14 @@ namespace GridGain.CodeGen
     {
         static CodePath()
         {
-            var asm = Assembly.GetExecutingAssembly().Location;
-
-            var modulesClientsDotnet = @"\modules\clients\dotnet";
-            var idx = asm.IndexOf(modulesClientsDotnet, StringComparison.Ordinal);
-
-            if (idx < 0)
-                throw new InvalidOperationException("Can't find repo root.");
-
-            GgPrivatePath = asm.Substring(0, idx);
+            GgPrivatePath = @"c:\w\ggprivate";
 
             IncubatorIgnitePath = Path.GetFullPath(GgPrivatePath + @"\..\incubator-ignite");
 
             // ReSharper disable once AssignNullToNotNullAttribute
-            CodegenProjectPath = Path.GetFullPath(Path.Combine(Path.GetDirectoryName(asm), @"..\..\"));
+            CodegenProjectPath = Path.GetFullPath(Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location), @"..\..\"));
 
-            TargetPath = asm.Substring(0, idx + modulesClientsDotnet.Length) + @"\gridgain\gridgain\events";
+            TargetPath = @"c:\w";
 
             JavaEventWriterClassPath = GgPrivatePath + @"\modules\core\src\main\java\org\gridgain\grid\internal\interop\InteropContext.java";
         }

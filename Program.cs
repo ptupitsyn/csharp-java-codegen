@@ -1,4 +1,5 @@
 ﻿using System;
+using System.IO;
 using System.Linq;
 
 namespace GridGain.CodeGen
@@ -7,13 +8,15 @@ namespace GridGain.CodeGen
     {
         static void Main(string[] args)
         {
-            /*var cls =
+            var cls =
                 ClassParser.Parse(
-                    @"C:\W\ggprivate\modules\core\src\main\java\org\gridgain\grid\dr\DrSenderInMetrics.java");
+                    @"C:\W\incubator-ignite\modules\core\src\main\java\org\apache\ignite\cache\CacheMetrics.java");
 
-            CsharpGenerator.WriteClass(cls, @"C:\W\ggprivate\modules\clients\dotnet\gridgain\gridgain\impl\datacenterreplication\DrSenderInMetrics.cs", true);
-             * */
+            CsharpGenerator.WriteClass(cls, @"C:\W\CacheMetrics.cs", true);
+            //File.WriteAllText(@"C:\W\CacheMetrics.cs", CsharpGenerator.GenerateInterfaceProperties(cls.Properties));
+            
 
+            /**
             var eventClasses = EventClassFinder.GetEventClasses().Select(ClassParser.Parse)
                 .Where(x => x.Name.StartsWith("Auth")).ToList();
 
@@ -26,7 +29,7 @@ namespace GridGain.CodeGen
 
             //var csharpClsIds = CsharpGenerator.GenerateClsIdMap(eventClasses);
 
-            JavaGenerator.UpdateEventWriter(eventClasses);
+            JavaGenerator.UpdateEventWriter(eventClasses);*/
         }
     }
 }

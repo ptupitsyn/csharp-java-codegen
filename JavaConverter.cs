@@ -113,7 +113,7 @@ namespace GridGain.CodeGen
             }
 
             if (actualLine.Length > 0)
-                yield return actualLine.ToString();
+                yield return actualLine.ToString().TrimEnd();
         }
     }
 }
