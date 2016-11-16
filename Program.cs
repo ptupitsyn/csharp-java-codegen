@@ -12,9 +12,10 @@ namespace GridGain.CodeGen
                 ClassParser.Parse(
                     @"C:\W\incubator-ignite\modules\core\src\main\java\org\apache\ignite\cache\CacheMetrics.java");
 
-            CsharpGenerator.WriteClass(cls, @"C:\W\CacheMetrics.cs", true);
+            //CsharpGenerator.WriteClass(cls, @"C:\W\CacheMetrics.cs", true);
             //File.WriteAllText(@"C:\W\CacheMetrics.cs", CsharpGenerator.GenerateInterfaceProperties(cls.Properties));
-            
+            File.WriteAllText(@"C:\W\CacheMetrics.cs", JavaGenerator.GenerateWriter(cls, "metrics"));
+
 
             /**
             var eventClasses = EventClassFinder.GetEventClasses().Select(ClassParser.Parse)

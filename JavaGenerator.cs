@@ -32,6 +32,18 @@ namespace GridGain.CodeGen
             File.WriteAllText(file, text);
         }
 
+        public static string GenerateWriter(Class cls, string varName)
+        {
+            var sb = new StringBuilder();
+
+            foreach (var prop in cls.Properties)
+            {
+                sb.AppendFormat("writer.write{0}({2}.{1}());\n", GetPropType(prop.Type), prop.Name, varName);
+            }
+
+            return sb.ToString();
+        }
+
         private static string GenerateClsIds(IEnumerable<Class> classes)
         {
             return classes.Select(x => string.Format("\n.put({0}.class, {1})", x.Name, x.Id))
